@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mela Stall Manager – Toy Business Tool</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f7173" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mela Manager" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-theme="light" data-page="dashboard">
+
+  <!-- Mobile Nav Overlay -->
+  <div id="nav-overlay" class="nav-overlay"></div>
+
+  <!-- ═══════════════════════════════ TOP HEADER ═══════════════════════════════ -->
+  <header id="main-header" class="main-header">
+    <div class="header-left">
+      <button id="hamburger-btn" class="hamburger-btn" aria-label="Menu toggle">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <div class="brand">
+        <span class="brand-icon">🎪</span>
+        <div class="brand-text">
+          <span class="brand-name">Mela Manager</span>
+          <span class="brand-tagline">Shah Alam Market Tool</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <span id="current-page-title" class="current-page-title">Dashboard</span>
+    </div>
+
+    <div class="header-right">
+      <button id="calculator-btn" class="btn-icon-round" title="Calculator" aria-label="Open Calculator">
+        <i class="fa-solid fa-calculator"></i>
+      </button>
+      <button id="quick-expense-btn" class="btn-icon-pill" title="Quick Add Expense">
+        <i class="fa-solid fa-receipt"></i>
+        <span>Expense</span>
+      </button>
+      <button id="dark-mode-toggle" class="btn-icon-round" title="Dark Mode Toggle" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
+  <nav id="sidebar" class="sidebar" role="navigation" aria-label="Main Navigation">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-icon">🎪</span>
+        <span class="sidebar-brand-name">Mela Manager</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="Close sidebar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <ul class="nav-list" role="list">
+      <li class="nav-item" data-page="dashboard">
+        <a href="#" class="nav-link active" data-target="dashboard" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span>
+          <span class="nav-label">Dashboard</span>
+          <span class="nav-badge" id="nav-badge-dashboard"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="products">
+        <a href="#" class="nav-link" data-target="products" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+          <span class="nav-label">Product Manager</span>
+          <span class="nav-badge" id="nav-badge-products"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="pos">
+        <a href="#" class="nav-link" data-target="pos" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-cash-register"></i></span>
+          <span class="nav-label">POS / Sell</span>
+          <span class="nav-badge" id="nav-badge-pos"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="shopping">
+        <a href="#" class="nav-link" data-target="shopping" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+          <span class="nav-label">Shopping List</span>
+          <span class="nav-badge" id="nav-badge-shopping"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="expenses">
+        <a href="#" class="nav-link" data-target="expenses" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-money-bill-wave"></i></span>
+          <span class="nav-label">Expenses & Travel</span>
+          <span class="nav-badge" id="nav-badge-expenses"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="tasks">
+        <a href="#" class="nav-link" data-target="tasks" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-list-check"></i></span>
+          <span class="nav-label">Tasks & Timeline</span>
+          <span class="nav-badge" id="nav-badge-tasks"></span>
+        </a>
+      </li>
+      <li class="nav-item" data-page="reports">
+        <a href="#" class="nav-link" data-target="reports" role="button">
+          <span class="nav-icon"><i class="fa-solid fa-file-export"></i></span>
+          <span class="nav-label">Reports & Export</span>
+          <span class="nav-badge" id="nav-badge-reports"></span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button id="load-demo-btn" class="btn-sidebar-action btn-demo">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Load Demo Data</span>
+      </button>
+      <button id="reset-all-btn" class="btn-sidebar-action btn-danger">
+        <i class="fa-solid fa-trash-can"></i>
+        <span>Reset All Data</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════ MAIN CONTENT ═══════════════════════════════ -->
+  <main id="main-content" class="main-content" role="main">
+
+    <!-- ─── PAGE 1: DASHBOARD ─── -->
+    <section id="page-dashboard" class="page active" aria-labelledby="dashboard-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="dashboard-heading" class="page-heading">
+            <span class="page-heading-icon">📊</span> Dashboard
+          </h1>
+          <p class="page-subheading">Aapke stall ki puri jhalak ek nazar mein</p>
+        </div>
+        <div class="page-header-actions">
+          <span id="last-updated" class="last-updated-badge"></span>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card kpi-products" id="kpi-total-products">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-cubes"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-products">0</span>
+            <span class="kpi-label">Total Products</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-revenue" id="kpi-revenue">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-sack-dollar"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-revenue">PKR 0</span>
+            <span class="kpi-label">Expected Revenue</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-cost" id="kpi-cost">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-cart-shopping"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-cost">PKR 0</span>
+            <span class="kpi-label">Wholesale Cost</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-expenses" id="kpi-expenses">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-road"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-expenses">PKR 0</span>
+            <span class="kpi-label">Travel & Expenses</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-profit" id="kpi-profit">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-profit">PKR 0</span>
+            <span class="kpi-label">Net Expected Profit</span>
+          </div>
+          <div class="kpi-profit-bar">
+            <div class="kpi-profit-fill" id="kpi-profit-fill"></div>
+          </div>
+        </div>
+        <div class="kpi-card kpi-tasks" id="kpi-tasks">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-tasks">0</span>
+            <span class="kpi-label">Pending Tasks</span>
+          </div>
+        </div>
+        <!-- NEW: Today's Sales KPI -->
+        <div class="kpi-card kpi-sales" id="kpi-sales">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-receipt"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-sales">PKR 0</span>
+            <span class="kpi-label">Today's Sales</span>
+          </div>
+        </div>
+        <!-- NEW: Today's Profit KPI -->
+        <div class="kpi-card kpi-today-profit" id="kpi-today-profit">
+          <div class="kpi-icon-wrap"><i class="fa-solid fa-coins"></i></div>
+          <div class="kpi-body">
+            <span class="kpi-value" id="kpi-val-today-profit">PKR 0</span>
+            <span class="kpi-label">Today's Profit</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="alerts-row" id="alerts-row"></div>
+
+      <!-- Dashboard Bottom Grid -->
+      <div class="dashboard-bottom-grid">
+        <div class="dash-panel dash-panel-lowstock" id="panel-low-stock">
+          <div class="dash-panel-header">
+            <h2 class="dash-panel-title"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock Alert</h2>
+            <span class="dash-panel-badge badge-warning" id="low-stock-count">0 items</span>
+          </div>
+          <div class="dash-panel-body" id="low-stock-list">
+            <div class="empty-state-small"><i class="fa-solid fa-box-open"></i><span>Sab theek hai!</span></div>
+          </div>
+        </div>
+
+        <div class="dash-panel dash-panel-shopping" id="panel-pending-shopping">
+          <div class="dash-panel-header">
+            <h2 class="dash-panel-title"><i class="fa-solid fa-basket-shopping"></i> Pending Shopping</h2>
+            <button class="dash-panel-link" data-target="shopping">Sab dekho <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+          <div class="dash-panel-body" id="pending-shopping-list">
+            <div class="empty-state-small"><i class="fa-solid fa-check-circle"></i><span>Sab khareed liya!</span></div>
+          </div>
+        </div>
+
+        <div class="dash-panel dash-panel-quickexpense" id="panel-quick-expense">
+          <div class="dash-panel-header">
+            <h2 class="dash-panel-title"><i class="fa-solid fa-bolt"></i> Quick Expense</h2>
+          </div>
+          <div class="dash-panel-body">
+            <form id="quick-expense-form" class="quick-form" novalidate>
+              <div class="quick-form-row">
+                <select id="qe-category" class="form-input" required>
+                  <option value="">Category...</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Loading">Loading</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Tea/Chai">Tea/Chai</option>
+                  <option value="Parking">Parking</option>
+                  <option value="Toll">Toll</option>
+                  <option value="Other">Other</option>
+                </select>
+                <input type="number" id="qe-amount" class="form-input" placeholder="PKR Amount" min="1" required />
+              </div>
+              <input type="text" id="qe-description" class="form-input" placeholder="Description (optional)" />
+              <button type="submit" class="btn-primary btn-block"><i class="fa-solid fa-plus"></i> Add Expense</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="dash-panel dash-panel-todaytasks" id="panel-today-tasks">
+          <div class="dash-panel-header">
+            <h2 class="dash-panel-title"><i class="fa-solid fa-calendar-day"></i> Today's Tasks</h2>
+            <button class="dash-panel-link" data-target="tasks">Sab dekho <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+          <div class="dash-panel-body" id="today-tasks-list">
+            <div class="empty-state-small"><i class="fa-regular fa-calendar-check"></i><span>Aaj ke liye koi task nahi</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 2: PRODUCTS ─── -->
+    <section id="page-products" class="page" aria-labelledby="products-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="products-heading" class="page-heading"><span class="page-heading-icon">📦</span> Product Manager</h1>
+          <p class="page-subheading">Stock control aur profit calculation</p>
+        </div>
+        <div class="page-header-actions">
+          <button id="add-product-btn" class="btn-primary">
+            <i class="fa-solid fa-plus"></i><span>Add Product</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-stats-row" id="product-stats-row">
+        <div class="stat-chip stat-chip-info"><span class="stat-chip-label">Total Stock Value</span><span class="stat-chip-value" id="stat-total-stock-value">PKR 0</span></div>
+        <div class="stat-chip stat-chip-success"><span class="stat-chip-label">Potential Revenue</span><span class="stat-chip-value" id="stat-potential-revenue">PKR 0</span></div>
+        <div class="stat-chip stat-chip-profit"><span class="stat-chip-label">Total Profit</span><span class="stat-chip-value" id="stat-total-profit">PKR 0</span></div>
+        <div class="stat-chip stat-chip-warning"><span class="stat-chip-label">Sold Out Items</span><span class="stat-chip-value" id="stat-sold-out">0</span></div>
+      </div>
+
+      <div class="filter-bar" id="product-filter-bar">
+        <div class="filter-bar-left">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="product-search" class="search-input" placeholder="Product dhundo..." />
+          </div>
+          <select id="product-category-filter" class="form-input form-input-sm">
+            <option value="">All Categories</option>
+            <option value="Toy">Toy</option>
+            <option value="Doll">Doll</option>
+            <option value="Gun">Gun</option>
+            <option value="Car">Car</option>
+            <option value="Board Game">Board Game</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="product-sort" class="form-input form-input-sm">
+            <option value="name-asc">A-Z Name</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+            <option value="qty-asc">Qty ↑</option>
+            <option value="qty-desc">Qty ↓</option>
+            <option value="profit-desc">Profit ↓</option>
+          </select>
+        </div>
+        <div class="filter-bar-right">
+          <button id="bulk-update-btn" class="btn-secondary btn-sm">
+            <i class="fa-solid fa-list-check"></i><span>Bulk Update</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Import bar -->
+      <div class="import-bar">
+        <label for="import-excel-products" class="btn-secondary btn-sm" style="cursor:pointer;">
+          <i class="fa-solid fa-file-excel"></i> Import Excel (Products)
+        </label>
+        <input type="file" id="import-excel-products" class="visually-hidden" accept=".xlsx,.xls,.csv" />
+        <label for="import-json-products" class="btn-secondary btn-sm" style="cursor:pointer;">
+          <i class="fa-solid fa-file-code"></i> Import JSON
+        </label>
+        <input type="file" id="import-json-products" class="visually-hidden" accept=".json" />
+      </div>
+
+      <div class="table-wrapper" id="products-table-wrapper">
+        <table class="data-table" id="products-table" role="table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="select-all-products" /></th>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Wholesale</th>
+              <th>Qty</th>
+              <th>Retail</th>
+              <th>Profit/Unit</th>
+              <th>Total Profit</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+          <tfoot id="products-tfoot"></tfoot>
+        </table>
+        <div class="empty-state" id="products-empty-state" hidden>
+          <div class="empty-state-icon">📦</div>
+          <p class="empty-state-text">Koi product nahi. Pehla product add karo!</p>
+          <button class="btn-primary" data-trigger="add-product-btn"><i class="fa-solid fa-plus"></i> Add Product</button>
+        </div>
+      </div>
+
+      <!-- Product Modal -->
+      <dialog id="product-modal" class="modal" aria-labelledby="product-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="product-modal-title" class="modal-title">Add New Product</h2>
+            <button class="modal-close-btn" data-close-modal="product-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="product-form" novalidate>
+              <input type="hidden" id="product-id-field" />
+              <!-- Image Upload -->
+              <div class="form-group">
+                <label class="form-label">Product Image (optional)</label>
+                <div class="image-upload-area" id="product-image-area">
+                  <img id="product-image-preview" src="" alt="Preview" style="display:none;max-height:100px;border-radius:8px;margin:auto;" />
+                  <div id="image-upload-placeholder">
+                    <i class="fa-solid fa-image" style="font-size:2rem;color:var(--clr-text-faint)"></i>
+                    <p style="font-size:0.8rem;color:var(--clr-text-muted)">Click to upload image</p>
+                  </div>
+                  <input type="file" id="pf-image" accept="image/*" class="visually-hidden" />
+                </div>
+                <input type="hidden" id="pf-image-data" />
+              </div>
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="pf-name">Product Name <span class="required">*</span></label>
+                  <input type="text" id="pf-name" class="form-input" placeholder="e.g. Pistol Water Gun" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pf-category">Category</label>
+                  <select id="pf-category" class="form-input">
+                    <option value="Toy">Toy</option>
+                    <option value="Doll">Doll</option>
+                    <option value="Gun">Gun</option>
+                    <option value="Car">Car</option>
+                    <option value="Board Game">Board Game</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pf-wholesale">Wholesale Price (PKR) <span class="required">*</span></label>
+                  <input type="number" id="pf-wholesale" class="form-input" placeholder="e.g. 150" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pf-qty">Quantity <span class="required">*</span></label>
+                  <input type="number" id="pf-qty" class="form-input" placeholder="e.g. 20" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pf-retail">Retail Price (PKR)</label>
+                  <input type="number" id="pf-retail" class="form-input" placeholder="e.g. 300" min="0" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pf-margin">OR Profit Margin %</label>
+                  <input type="number" id="pf-margin" class="form-input" placeholder="e.g. 50" min="0" max="1000" />
+                  <span class="form-hint">Retail price auto-calculate ho jaye ga</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pf-notes">Notes</label>
+                <input type="text" id="pf-notes" class="form-input" placeholder="Optional notes..." />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="product-modal">Cancel</button>
+            <button type="button" id="product-save-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Bulk Modal -->
+      <dialog id="bulk-modal" class="modal" aria-labelledby="bulk-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="bulk-modal-title" class="modal-title">Bulk Update Quantity</h2>
+            <button class="modal-close-btn" data-close-modal="bulk-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body" id="bulk-modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="bulk-modal">Cancel</button>
+            <button type="button" id="bulk-save-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save All</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Restock Modal -->
+      <dialog id="restock-modal" class="modal modal-sm" aria-labelledby="restock-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="restock-modal-title" class="modal-title">Restock Product</h2>
+            <button class="modal-close-btn" data-close-modal="restock-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <p id="restock-product-name" class="fw-bold mb-8" style="margin-bottom:12px;"></p>
+            <div class="form-group">
+              <label class="form-label">Add Quantity</label>
+              <input type="number" id="restock-qty-input" class="form-input" value="10" min="1" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="restock-modal">Cancel</button>
+            <button type="button" id="restock-save-btn" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stock</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ─── PAGE 3: POS / SELL ─── -->
+    <section id="page-pos" class="page" aria-labelledby="pos-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="pos-heading" class="page-heading"><span class="page-heading-icon">🏪</span> POS / Sell</h1>
+          <p class="page-subheading">Products becho, stock update ho ga, sale record hoga</p>
+        </div>
+        <div class="page-header-actions">
+          <button id="pos-sales-history-btn" class="btn-secondary">
+            <i class="fa-solid fa-clock-rotate-left"></i><span>Sales History</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pos-layout">
+        <!-- Left: Product Selection -->
+        <div class="pos-products-panel">
+          <div class="search-box" style="margin-bottom:12px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="pos-search" class="search-input" placeholder="Product dhundo..." />
+          </div>
+          <div class="pos-products-grid" id="pos-products-grid">
+            <!-- Product cards injected by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Cart -->
+        <div class="pos-cart-panel">
+          <div class="pos-cart-header">
+            <h2><i class="fa-solid fa-cart-shopping"></i> Cart</h2>
+            <button id="pos-clear-cart-btn" class="btn-ghost btn-sm">Clear</button>
+          </div>
+          <div class="pos-cart-items" id="pos-cart-items">
+            <div class="empty-state-small"><i class="fa-solid fa-cart-plus"></i><span>Cart khaali hai</span></div>
+          </div>
+          <div class="pos-cart-footer">
+            <div class="pos-cart-totals">
+              <div class="pos-total-row"><span>Items:</span><span id="pos-total-items">0</span></div>
+              <div class="pos-total-row"><span>Total:</span><span id="pos-total-amount" class="fw-bold">PKR 0</span></div>
+              <div class="pos-total-row pos-profit-row"><span>Profit:</span><span id="pos-total-profit" class="profit-pos">PKR 0</span></div>
+            </div>
+            <button id="pos-checkout-btn" class="btn-primary btn-block" style="margin-top:12px;">
+              <i class="fa-solid fa-check-circle"></i> Checkout & Record Sale
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales History Modal -->
+      <dialog id="sales-history-modal" class="modal modal-lg" aria-labelledby="sales-history-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="sales-history-title" class="modal-title">Sales History</h2>
+            <button class="modal-close-btn" data-close-modal="sales-history-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <div class="table-wrapper" style="max-height:60vh;overflow-y:auto;">
+              <table class="data-table" id="sales-history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th><th>Time</th><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th><th>Profit</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-history-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="sales-history-modal">Close</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ─── PAGE 4: SHOPPING LIST ─── -->
+    <section id="page-shopping" class="page" aria-labelledby="shopping-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="shopping-heading" class="page-heading"><span class="page-heading-icon">🛒</span> Shopping List</h1>
+          <p class="page-subheading">Shah Alam Market ke liye planning</p>
+        </div>
+        <div class="page-header-actions">
+          <button id="move-to-products-btn" class="btn-secondary">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i><span>Move Purchased to Stock</span>
+          </button>
+          <button id="add-shopping-item-btn" class="btn-primary">
+            <i class="fa-solid fa-plus"></i><span>Add Item</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-stats-row" id="shopping-stats-row">
+        <div class="stat-chip stat-chip-info"><span class="stat-chip-label">Total Items</span><span class="stat-chip-value" id="stat-shopping-total">0</span></div>
+        <div class="stat-chip stat-chip-success"><span class="stat-chip-label">Purchased</span><span class="stat-chip-value" id="stat-shopping-purchased">0</span></div>
+        <div class="stat-chip stat-chip-warning"><span class="stat-chip-label">Remaining</span><span class="stat-chip-value" id="stat-shopping-remaining">0</span></div>
+        <div class="stat-chip stat-chip-cost"><span class="stat-chip-label">Expected Budget</span><span class="stat-chip-value" id="stat-shopping-budget">PKR 0</span></div>
+      </div>
+
+      <div class="filter-bar" id="shopping-filter-bar">
+        <div class="filter-bar-left">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="shopping-search" class="search-input" placeholder="Item dhundo..." />
+          </div>
+          <select id="shopping-status-filter" class="form-input form-input-sm">
+            <option value="">All Items</option>
+            <option value="pending">Pending</option>
+            <option value="purchased">Purchased ✓</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrapper" id="shopping-table-wrapper">
+        <table class="data-table" id="shopping-table" role="table">
+          <thead>
+            <tr>
+              <th>✓</th><th>Product Name</th><th>Wholesale</th><th>Qty</th><th>Total Cost</th><th>Notes</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="shopping-tbody"></tbody>
+          <tfoot id="shopping-tfoot"></tfoot>
+        </table>
+        <div class="empty-state" id="shopping-empty-state" hidden>
+          <div class="empty-state-icon">🛒</div>
+          <p class="empty-state-text">Shopping list khaali hai!</p>
+          <button class="btn-primary" data-trigger="add-shopping-item-btn"><i class="fa-solid fa-plus"></i> Add Item</button>
+        </div>
+      </div>
+
+      <!-- Shopping Modal -->
+      <dialog id="shopping-modal" class="modal" aria-labelledby="shopping-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="shopping-modal-title" class="modal-title">Add Shopping Item</h2>
+            <button class="modal-close-btn" data-close-modal="shopping-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="shopping-form" novalidate>
+              <input type="hidden" id="shopping-id-field" />
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="sf-name">Product Name <span class="required">*</span></label>
+                  <input type="text" id="sf-name" class="form-input" placeholder="e.g. Remote Control Car" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="sf-wholesale">Wholesale Price (PKR) <span class="required">*</span></label>
+                  <input type="number" id="sf-wholesale" class="form-input" placeholder="e.g. 200" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="sf-qty">Recommended Qty <span class="required">*</span></label>
+                  <input type="number" id="sf-qty" class="form-input" placeholder="e.g. 10" min="1" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="sf-shop-no">Shop No. / Location</label>
+                  <input type="text" id="sf-shop-no" class="form-input" placeholder="e.g. Shop 42, Block C" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sf-notes">Notes</label>
+                <input type="text" id="sf-notes" class="form-input" placeholder="Koi special note..." />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="shopping-modal">Cancel</button>
+            <button type="button" id="shopping-save-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Item</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Move to Stock Modal (Retail Price Input) -->
+      <dialog id="move-to-stock-modal" class="modal modal-sm" aria-labelledby="move-stock-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="move-stock-title" class="modal-title">Move to Stock</h2>
+            <button class="modal-close-btn" data-close-modal="move-to-stock-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted text-small" style="margin-bottom:12px;">Purchased items ka retail price set karo phir stock mein move ho ga.</p>
+            <div id="move-retail-prices-list">
+              <!-- Dynamically filled -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="move-to-stock-modal">Cancel</button>
+            <button type="button" id="move-stock-confirm-btn" class="btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Move to Stock</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ─── PAGE 5: EXPENSES ─── -->
+    <section id="page-expenses" class="page" aria-labelledby="expenses-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="expenses-heading" class="page-heading"><span class="page-heading-icon">💸</span> Expenses & Travel</h1>
+          <p class="page-subheading">Lunch, loading, petrol aur baaki kharche</p>
+        </div>
+        <div class="page-header-actions">
+          <button id="add-expense-btn" class="btn-primary"><i class="fa-solid fa-plus"></i><span>Add Expense</span></button>
+        </div>
+      </div>
+
+      <div class="section-stats-row" id="expense-stats-row">
+        <div class="stat-chip stat-chip-info"><span class="stat-chip-label">Total Expenses</span><span class="stat-chip-value" id="stat-total-expenses">PKR 0</span></div>
+        <div class="stat-chip stat-chip-warning"><span class="stat-chip-label">Travel Cost</span><span class="stat-chip-value" id="stat-travel-cost">PKR 0</span></div>
+        <div class="stat-chip stat-chip-info"><span class="stat-chip-label">Food & Tea</span><span class="stat-chip-value" id="stat-food-cost">PKR 0</span></div>
+        <div class="stat-chip stat-chip-cost"><span class="stat-chip-label">Other Costs</span><span class="stat-chip-value" id="stat-other-cost">PKR 0</span></div>
+      </div>
+
+      <div class="expenses-top-row">
+        <div class="expense-chart-card" id="expense-chart-card">
+          <div class="card-header-simple">
+            <h2 class="card-title-simple">Kharcha Breakdown</h2>
+            <div class="chart-type-toggle">
+              <button class="chart-type-btn active" data-chart-type="pie"><i class="fa-solid fa-chart-pie"></i></button>
+              <button class="chart-type-btn" data-chart-type="bar"><i class="fa-solid fa-chart-bar"></i></button>
+            </div>
+          </div>
+          <div class="chart-container" id="expense-chart-container">
+            <canvas id="expense-chart" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="expense-filter-card">
+          <div class="card-header-simple"><h2 class="card-title-simple">Filter Expenses</h2></div>
+          <div class="filter-vertical">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="expense-search" class="search-input" placeholder="Expense dhundo..." />
+            </div>
+            <select id="expense-category-filter" class="form-input">
+              <option value="">All Categories</option>
+              <option value="Travel">Travel</option>
+              <option value="Loading">Loading</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Tea/Chai">Tea/Chai</option>
+              <option value="Parking">Parking</option>
+              <option value="Toll">Toll</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="date" id="expense-date-filter" class="form-input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper" id="expenses-table-wrapper">
+        <table class="data-table" id="expenses-table" role="table">
+          <thead>
+            <tr><th>Date</th><th>Category</th><th>Amount (PKR)</th><th>Description</th><th>Receipt?</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="expenses-tbody"></tbody>
+          <tfoot id="expenses-tfoot"></tfoot>
+        </table>
+        <div class="empty-state" id="expenses-empty-state" hidden>
+          <div class="empty-state-icon">💸</div>
+          <p class="empty-state-text">Koi kharcha record nahi. Pehla expense add karo!</p>
+          <button class="btn-primary" data-trigger="add-expense-btn"><i class="fa-solid fa-plus"></i> Add Expense</button>
+        </div>
+      </div>
+
+      <!-- Expense Modal -->
+      <dialog id="expense-modal" class="modal" aria-labelledby="expense-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="expense-modal-title" class="modal-title">Add Expense</h2>
+            <button class="modal-close-btn" data-close-modal="expense-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="expense-form" novalidate>
+              <input type="hidden" id="expense-id-field" />
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="ef-category">Category <span class="required">*</span></label>
+                  <select id="ef-category" class="form-input" required>
+                    <option value="">Select...</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Loading">Loading</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Tea/Chai">Tea/Chai</option>
+                    <option value="Parking">Parking</option>
+                    <option value="Toll">Toll</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ef-amount">Amount (PKR) <span class="required">*</span></label>
+                  <input type="number" id="ef-amount" class="form-input" placeholder="e.g. 300" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ef-date">Date <span class="required">*</span></label>
+                  <input type="date" id="ef-date" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ef-receipt">Receipt Available?</label>
+                  <select id="ef-receipt" class="form-input">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ef-description">Description</label>
+                <input type="text" id="ef-description" class="form-input" placeholder="e.g. Van kiraya Lahore" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="expense-modal">Cancel</button>
+            <button type="button" id="expense-save-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ─── PAGE 6: TASKS ─── -->
+    <section id="page-tasks" class="page" aria-labelledby="tasks-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="tasks-heading" class="page-heading"><span class="page-heading-icon">✅</span> Tasks & Timeline</h1>
+          <p class="page-subheading">Mela ki tayyari ka master checklist</p>
+        </div>
+        <div class="page-header-actions">
+          <button id="add-task-btn" class="btn-primary"><i class="fa-solid fa-plus"></i><span>Add Task</span></button>
+        </div>
+      </div>
+
+      <div class="daily-checklist-banner">
+        <span class="checklist-banner-label">📋 Mela Day Checklist:</span>
+        <div class="checklist-chips">
+          <span class="checklist-chip">Lahore Travel</span>
+          <span class="checklist-chip">Price Tagging</span>
+          <span class="checklist-chip">Stall Setup</span>
+          <span class="checklist-chip">Change Management</span>
+          <span class="checklist-chip">Stock Count</span>
+          <span class="checklist-chip">Cash Count</span>
+        </div>
+      </div>
+
+      <div class="tasks-list-wrapper" id="tasks-list-wrapper">
+        <div class="task-group" id="task-group-today">
+          <div class="task-group-header task-group-today"><i class="fa-solid fa-calendar-day"></i><span>Today's Tasks</span><span class="task-group-count" id="task-group-today-count">0</span></div>
+          <div class="task-group-items" id="task-group-today-items"></div>
+        </div>
+        <div class="task-group" id="task-group-overdue">
+          <div class="task-group-header task-group-overdue"><i class="fa-solid fa-fire"></i><span>Overdue</span><span class="task-group-count" id="task-group-overdue-count">0</span></div>
+          <div class="task-group-items" id="task-group-overdue-items"></div>
+        </div>
+        <div class="task-group" id="task-group-upcoming">
+          <div class="task-group-header task-group-upcoming"><i class="fa-solid fa-calendar-days"></i><span>Upcoming</span><span class="task-group-count" id="task-group-upcoming-count">0</span></div>
+          <div class="task-group-items" id="task-group-upcoming-items"></div>
+        </div>
+        <div class="task-group" id="task-group-completed">
+          <div class="task-group-header task-group-completed"><i class="fa-solid fa-circle-check"></i><span>Completed</span><span class="task-group-count" id="task-group-completed-count">0</span></div>
+          <div class="task-group-items" id="task-group-completed-items"></div>
+        </div>
+      </div>
+
+      <div class="empty-state" id="tasks-empty-state" hidden>
+        <div class="empty-state-icon">✅</div>
+        <p class="empty-state-text">Koi task nahi. Pehla task add karo!</p>
+        <button class="btn-primary" data-trigger="add-task-btn"><i class="fa-solid fa-plus"></i> Add Task</button>
+      </div>
+
+      <!-- Task Modal -->
+      <dialog id="task-modal" class="modal" aria-labelledby="task-modal-title">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2 id="task-modal-title" class="modal-title">Add Task</h2>
+            <button class="modal-close-btn" data-close-modal="task-modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="task-form" novalidate>
+              <input type="hidden" id="task-id-field" />
+              <div class="form-group">
+                <label class="form-label" for="tf-name">Task Name <span class="required">*</span></label>
+                <input type="text" id="tf-name" class="form-input" placeholder="e.g. Shah Alam Market se khareeddari" required />
+              </div>
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="tf-deadline-date">Deadline Date <span class="required">*</span></label>
+                  <input type="date" id="tf-deadline-date" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tf-deadline-time">Deadline Time</label>
+                  <input type="time" id="tf-deadline-time" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tf-priority">Priority <span class="required">*</span></label>
+                  <select id="tf-priority" class="form-input" required>
+                    <option value="High">High 🔴</option>
+                    <option value="Medium" selected>Medium 🟡</option>
+                    <option value="Low">Low 🟢</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tf-status">Status</label>
+                  <select id="tf-status" class="form-input">
+                    <option value="Pending" selected>Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tf-description">Description</label>
+                <textarea id="tf-description" class="form-input form-textarea" rows="3" placeholder="Task ke baare mein..."></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-close-modal="task-modal">Cancel</button>
+            <button type="button" id="task-save-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Task</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- ─── PAGE 7: REPORTS ─── -->
+    <section id="page-reports" class="page" aria-labelledby="reports-heading">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 id="reports-heading" class="page-heading"><span class="page-heading-icon">📋</span> Reports & Export</h1>
+          <p class="page-subheading">PDF, Excel, Docs mein report nikalo ya share karo</p>
+        </div>
+      </div>
+
+      <div class="export-options-grid" id="export-options-grid">
+        <div class="export-card export-card-pdf" id="export-card-pdf">
+          <div class="export-card-icon"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="export-card-body">
+            <h3 class="export-card-title">Export to PDF</h3>
+            <p class="export-card-desc">Products, expenses, tasks, sales — sab ek PDF mein</p>
+            <div class="export-options-mini">
+              <label class="checkbox-label"><input type="checkbox" id="pdf-include-products" checked /> Products</label>
+              <label class="checkbox-label"><input type="checkbox" id="pdf-include-expenses" checked /> Expenses</label>
+              <label class="checkbox-label"><input type="checkbox" id="pdf-include-tasks" checked /> Tasks</label>
+              <label class="checkbox-label"><input type="checkbox" id="pdf-include-shopping" /> Shopping</label>
+              <label class="checkbox-label"><input type="checkbox" id="pdf-include-sales" checked /> Sales</label>
+            </div>
+            <button id="export-pdf-btn" class="btn-export btn-export-pdf"><i class="fa-solid fa-download"></i> Download PDF</button>
+          </div>
+        </div>
+
+        <div class="export-card export-card-excel" id="export-card-excel">
+          <div class="export-card-icon"><i class="fa-solid fa-file-excel"></i></div>
+          <div class="export-card-body">
+            <h3 class="export-card-title">Export to Excel (CSV)</h3>
+            <p class="export-card-desc">Products, expenses, tasks, sales — alag sheets mein</p>
+            <div class="export-options-mini">
+              <label class="checkbox-label"><input type="checkbox" id="excel-include-products" checked /> Products</label>
+              <label class="checkbox-label"><input type="checkbox" id="excel-include-expenses" checked /> Expenses</label>
+              <label class="checkbox-label"><input type="checkbox" id="excel-include-tasks" checked /> Tasks</label>
+              <label class="checkbox-label"><input type="checkbox" id="excel-include-shopping" checked /> Shopping</label>
+              <label class="checkbox-label"><input type="checkbox" id="excel-include-sales" checked /> Sales</label>
+            </div>
+            <button id="export-excel-btn" class="btn-export btn-export-excel"><i class="fa-solid fa-download"></i> Download CSV/Excel</button>
+          </div>
+        </div>
+
+        <div class="export-card export-card-docs" id="export-card-docs">
+          <div class="export-card-icon"><i class="fa-solid fa-file-word"></i></div>
+          <div class="export-card-body">
+            <h3 class="export-card-title">Export to Word (Docs)</h3>
+            <p class="export-card-desc">Text format mein share karne ke liye</p>
+            <div class="export-options-mini">
+              <label class="checkbox-label"><input type="checkbox" id="docs-include-summary" checked /> Summary</label>
+              <label class="checkbox-label"><input type="checkbox" id="docs-include-products" checked /> Products</label>
+              <label class="checkbox-label"><input type="checkbox" id="docs-include-shopping" /> Shopping</label>
+            </div>
+            <button id="export-docs-btn" class="btn-export btn-export-docs"><i class="fa-solid fa-download"></i> Download .doc</button>
+          </div>
+        </div>
+
+        <div class="export-card export-card-json" id="export-card-json">
+          <div class="export-card-icon"><i class="fa-solid fa-database"></i></div>
+          <div class="export-card-body">
+            <h3 class="export-card-title">JSON Backup</h3>
+            <p class="export-card-desc">Poora data backup karo. Baad mein restore kar sako.</p>
+            <div class="export-btn-row">
+              <button id="export-json-btn" class="btn-export btn-export-json"><i class="fa-solid fa-cloud-arrow-down"></i> Download Backup</button>
+              <label for="import-json-input" class="btn-export btn-export-restore"><i class="fa-solid fa-cloud-arrow-up"></i> Restore Backup</label>
+              <input type="file" id="import-json-input" class="visually-hidden" accept=".json" />
+            </div>
+          </div>
+        </div>
+
+        <div class="export-card export-card-print" id="export-card-print">
+          <div class="export-card-icon"><i class="fa-solid fa-print"></i></div>
+          <div class="export-card-body">
+            <h3 class="export-card-title">Print Report</h3>
+            <p class="export-card-desc">Browser print dialog khulega</p>
+            <button id="print-btn" class="btn-export btn-export-print"><i class="fa-solid fa-print"></i> Print Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="report-options-card" id="report-options-card">
+        <div class="card-header-simple"><h2 class="card-title-simple">Report Options</h2></div>
+        <div class="report-options-body">
+          <div class="form-grid form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="report-date-from">Date From</label>
+              <input type="date" id="report-date-from" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="report-date-to">Date To</label>
+              <input type="date" id="report-date-to" class="form-input" />
+            </div>
+          </div>
+          <div class="date-range-presets" id="date-range-presets">
+            <button class="btn-preset" data-preset="today">Today</button>
+            <button class="btn-preset" data-preset="week">This Week</button>
+            <button class="btn-preset" data-preset="month">This Month</button>
+            <button class="btn-preset active" data-preset="all">All Time</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Preview -->
+      <div class="report-preview-card" id="report-preview-card">
+        <div class="card-header-simple">
+          <h2 class="card-title-simple">Report Preview</h2>
+          <span class="preview-badge">Live Preview</span>
+        </div>
+        <div class="report-preview-body" id="report-preview-body">
+          <div class="report-preview-section" id="preview-summary"></div>
+          <div class="report-preview-section" id="preview-products"></div>
+          <div class="report-preview-section" id="preview-expenses"></div>
+          <div class="report-preview-section" id="preview-sales"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════ GLOBAL TOASTS ═══════ -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ═══════ CONFIRM DIALOG ═══════ -->
+  <dialog id="confirm-dialog" class="modal modal-sm" aria-labelledby="confirm-dialog-title">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h2 id="confirm-dialog-title" class="modal-title">Confirm</h2>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-dialog-message" class="confirm-message">Kya aap sure hain?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="confirm-cancel-btn" class="btn-ghost">Cancel</button>
+        <button type="button" id="confirm-ok-btn" class="btn-danger">Confirm</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ═══════ CALCULATOR MODAL ═══════ -->
+  <dialog id="calculator-modal" class="modal modal-sm" aria-labelledby="calc-title">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h2 id="calc-title" class="modal-title"><i class="fa-solid fa-calculator"></i> Calculator</h2>
+        <button class="modal-close-btn" data-close-modal="calculator-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="padding:12px;">
+        <div class="calc-display" id="calc-display">0</div>
+        <div class="calc-history" id="calc-history"></div>
+        <div class="calc-grid">
+          <button class="calc-btn calc-btn-fn" data-calc="AC">AC</button>
+          <button class="calc-btn calc-btn-fn" data-calc="+/-">+/-</button>
+          <button class="calc-btn calc-btn-fn" data-calc="%">%</button>
+          <button class="calc-btn calc-btn-op" data-calc="÷">÷</button>
+          <button class="calc-btn" data-calc="7">7</button>
+          <button class="calc-btn" data-calc="8">8</button>
+          <button class="calc-btn" data-calc="9">9</button>
+          <button class="calc-btn calc-btn-op" data-calc="×">×</button>
+          <button class="calc-btn" data-calc="4">4</button>
+          <button class="calc-btn" data-calc="5">5</button>
+          <button class="calc-btn" data-calc="6">6</button>
+          <button class="calc-btn calc-btn-op" data-calc="−">−</button>
+          <button class="calc-btn" data-calc="1">1</button>
+          <button class="calc-btn" data-calc="2">2</button>
+          <button class="calc-btn" data-calc="3">3</button>
+          <button class="calc-btn calc-btn-op" data-calc="+">+</button>
+          <button class="calc-btn calc-btn-zero" data-calc="0">0</button>
+          <button class="calc-btn" data-calc=".">.</button>
+          <button class="calc-btn calc-btn-eq" data-calc="=">=</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ═══════ EXTERNAL LIBRARIES ═══════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <!-- App JS -->
+  <script src="script2.js"></script>
+</body>
+</html>
