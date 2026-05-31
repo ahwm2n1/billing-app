@@ -1674,3 +1674,10 @@ bash
 
 /* ─── btn-action-success ─── */
 .btn-action-success:hover { background: var(--clr-success-light); color: var(--clr-success); border-color: var(--clr-success); }
+
+
+.export-card .btn-export {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
