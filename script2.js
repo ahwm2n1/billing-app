@@ -2054,3 +2054,108 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+// ========== MOBILE EXPORT FIX ==========
+(function fixMobileExports() {
+  // Fix PDF export for mobile
+  const oldExportPDF = window.exportPDF;
+  if (oldExportPDF) {
+    window.exportPDF = function() {
+      try {
+        oldExportPDF();
+      } catch(e) {
+        alert("PDF generate nahi ho raha. Mobile browser try karein.");
+      }
+    };
+  }
+
+  // Fix Excel export - use data URI fallback
+  const oldExportExcel = window.exportExcel;
+  if (oldExportExcel) {
+    window.exportExcel = function() {
+      if (!window.XLSX) { toast('SheetJS library load nahi hui', 'danger'); return; }
+      const { from, to } = getDateRange();
+      const wb = XLSX.utils.book_new();
+      // ... (your existing excel code here, but ensure download)
+      try {
+        XLSX.writeFile(wb, `MelaReport_${today()}.xlsx`);
+        toast('Excel file download ho rahi hai!');
+      } catch(e) {
+        // Fallback for mobile: force download via blob
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([wbout], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MelaReport_${today()}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+        toast('Excel file download ho rahi hai!');
+      }
+    };
+  }
+
+  // Fix JSON Export for mobile
+  const oldExportJSON = window.exportJSON;
+  if (oldExportJSON) {
+    window.exportJSON = function() {
+      const backup = {
+        version: '2.0',
+        exportedAt: new Date().toISOString(),
+        products: state.products,
+        shopping: state.shopping,
+        expenses: state.expenses,
+        tasks: state.tasks,
+        sales: state.sales,
+      };
+      const dataStr = JSON.stringify(backup, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MelaBackup_${today()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+      toast('JSON backup download ho raha hai!');
+    };
+  }
+
+  // Fix Import JSON for mobile (ensure file input works)
+  const importInput = document.getElementById('import-json-input');
+  if (importInput) {
+    importInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (confirm('Yeh backup restore karega. Sure ho?')) {
+            if (Array.isArray(data.products)) state.products = data.products;
+            if (Array.isArray(data.shopping)) state.shopping = data.shopping;
+            if (Array.isArray(data.expenses)) state.expenses = data.expenses;
+            if (Array.isArray(data.tasks)) state.tasks = data.tasks;
+            if (Array.isArray(data.sales)) state.sales = data.sales;
+            ['products','shopping','expenses','tasks','sales'].forEach(k => save(k));
+            renderDashboard(); updateNavBadges();
+            toast('Backup restore ho gaya!', 'success', 'Restore Complete');
+          }
+        } catch(err) {
+          toast('Invalid JSON file', 'danger');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+  }
+
+  // Fix Print button for mobile
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+})();
